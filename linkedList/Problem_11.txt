@@ -1,0 +1,216 @@
+Another Method : Use Hashing
+
+import java.util.*;
+ 
+public class LinkedList {
+    Node head;
+     static class Node {
+            int data;
+            Node next;
+             
+             
+            Node(int d)  {
+                data = d; 
+                next=null;
+                 
+     }
+ 
+}
+     public void printList() {
+         Node n= head;
+         while(n!=null) {
+             System.out.println(n.data+ " ");
+             n=n.next;
+         }
+     }
+      
+         
+        public void append(int d) {
+             
+            Node n= new Node(d);
+             
+            if(head== null) {
+                head= new Node(d);
+                return;
+            }
+             
+             
+            n.next=null;
+            Node last= head;
+            while(last.next !=null) {
+                last=last.next;
+                }
+                last.next=n;
+                return;
+             
+        }
+         
+        static int[] intersection(Node tmp1, Node tmp2, int k) {
+            int[] res = new int[k];
+             
+            HashSet<Integer> set = new HashSet<Integer>();
+            while(tmp1 != null) {
+                 
+                set.add(tmp1.data);
+                tmp1=tmp1.next;
+                 
+            }
+             
+            int cnt=0;
+             
+            while(tmp2 != null) {
+                if(set.contains(tmp2.data)) {
+                    res[cnt]=tmp2.data;
+                    cnt++;
+                }
+                tmp2=tmp2.next;
+                 
+            }
+             
+            return res;
+             
+        }
+      
+      
+     public static void main(String[] args) {
+         LinkedList ll = new LinkedList();
+         LinkedList ll1 = new LinkedList();
+          
+         ll.append(0);
+         ll.append(1);
+         ll.append(2);
+         ll.append(3);
+         ll.append(4);
+         ll.append(5);
+         ll.append(6);
+         ll.append(7);
+          
+          
+         ll1.append(9);
+         ll1.append(0);
+         ll1.append(12);
+         ll1.append(3);
+         ll1.append(4);
+         ll1.append(5);
+         ll1.append(6);
+         ll1.append(7);
+          
+          
+          int[] arr= intersection(ll.head, ll1.head,6);
+           
+          for(int i : arr) {
+              System.out.println(i);
+          }
+          
+         
+          
+          
+     }
+      
+      
+      
+}
+Output
+0
+3
+4
+5
+6
+7
+Complexity Analysis:
+
+Time Complexity: O(n)
+
+
+package linkedList;
+// Pronblem Title => Intersection Point of two Linked Lists. 
+public class Problem_11 {
+    static Node head1, head2;
+
+    static class Node {
+
+        int data;
+        Node next;
+
+        Node(int d) {
+            data = d;
+            next = null;
+        }
+    }
+
+    /*
+     * function to get the intersection point of two linked lists head1 and head2
+     */
+    int getNode() {
+        int c1 = getCount(head1);
+        int c2 = getCount(head2);
+        int d;
+
+        if (c1 > c2) {
+            d = c1 - c2;
+            return _getIntesectionNode(d, head1, head2);
+        } else {
+            d = c2 - c1;
+            return _getIntesectionNode(d, head2, head1);
+        }
+    }
+
+    /*
+     * function to get the intersection point of two linked lists head1 and head2
+     * where head1 has d more nodes than head2
+     */
+    int _getIntesectionNode(int d, Node node1, Node node2) {
+        int i;
+        Node current1 = node1;
+        Node current2 = node2;
+        for (i = 0; i < d; i++) {
+            if (current1 == null) {
+                return -1;
+            }
+            current1 = current1.next;
+        }
+        while (current1 != null && current2 != null) {
+            if (current1.data == current2.data) {
+                return current1.data;
+            }
+            current1 = current2;
+            current2 = current2.next;
+        }
+
+        return -1;
+    }
+
+    /*
+     * Takes head pointer of the linked linkedList.list and returns the count of nodes in the
+     * linkedList.list
+     */
+    int getCount(Node node) {
+        Node current = node;
+        int count = 0;
+
+        while (current != null) {
+            count++;
+            current = current.next;
+        }
+
+        return count;
+    }
+
+    public static void main(String[] args) {
+        Problem_11 list = new Problem_11();
+
+        // creating first linked linkedList.list
+        list.head1 = new Node(3);
+        list.head1.next = new Node(6);
+        list.head1.next.next = new Node(9);
+        list.head1.next.next.next = new Node(15);
+        list.head1.next.next.next.next = new Node(30);
+
+        // creating second linked linkedList.list
+        list.head2 = new Node(10);
+        list.head2.next = new Node(15);
+        list.head2.next.next = new Node(30);
+
+        System.out.println("The node of intersection is " + list.getNode());
+    }
+}
